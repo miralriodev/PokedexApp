@@ -1,11 +1,12 @@
 // src/screens/Home/index.tsx
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, StyleSheet } from 'react-native'
+import PokemonList from '../../src/components/PokemonList'
 
 export const HomeScreen: React.FC = () => {
   return (
     <View style={styles.container}>
-      <Text>Home Screen - Pokémon List Here</Text>
+      <PokemonList />
     </View>
   )
 }
@@ -17,4 +18,3 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 })
-

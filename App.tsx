@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from './api/queryClient';
 import { HomeScreen } from './screens/Home/index';
-import { DetailScreen } from './screens/Detail/index';
+import { DetailScreen } from './src/screens/Detail';
 
 const Stack = createNativeStackNavigator();
 
