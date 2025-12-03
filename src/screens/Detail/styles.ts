@@ -36,6 +36,7 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 8,
+    color: '#111827',
   },
   pillRow: {
     flexDirection: 'row',
@@ -46,15 +47,17 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 6,
     borderRadius: 999,
-    backgroundColor: '#f1f5f9',
+    backgroundColor: '#f8fafc',
   },
   pillText: {
     textTransform: 'capitalize',
+    color: '#374151',
   },
   statRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingVertical: 4,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e5e7eb',
   },
 })
-

@@ -41,7 +41,7 @@ export function DetailLayout({ name, pokemon, isLoading }: Props) {
         <View style={styles.titleRow}>
           <Text style={styles.title}>{name}</Text>
           <TouchableOpacity onPress={() => toggleFavorite(name)} accessibilityRole="button" accessibilityLabel={`Favorito ${name}`}>
-            <Text style={styles.heart}>{favorite ? '♥' : '♡'}</Text>
+            <Text style={[styles.heart, { color: favorite ? '#ef4444' : '#9ca3af' }]}>{favorite ? '♥' : '♡'}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -80,4 +80,3 @@ export function DetailLayout({ name, pokemon, isLoading }: Props) {
     </ScrollView>
   )
 }
-

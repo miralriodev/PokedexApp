@@ -1,5 +1,6 @@
 import React from 'react'
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
+import { useInfiniteQuery, useQuery, InfiniteData } from '@tanstack/react-query'
+import { MMKV } from 'react-native-mmkv'
 import { fetchPokemonPage, fetchPokemonByType, fetchPokemonByName, Pokemon, PokemonPage } from './fetchs'
 
 function parseNextOffset(next: string | null, fallback: number): number | undefined {
@@ -27,6 +28,16 @@ export function usePokemonList(): {
     return () => clearTimeout(t)
   }, [searchTerm])
 
+  const storage = React.useMemo(() => new MMKV(), [])
+  const listKey = 'pokemon:list'
+  const typeKey = (t: string) => `pokemon:type:${t}`
+  const searchKey = (s: string) => `pokemon:search:${s}`
+
+  const initialListRaw = storage.getString(listKey)
+  const initialList: InfiniteData<PokemonPage> | undefined = initialListRaw
+    ? (JSON.parse(initialListRaw) as InfiniteData<PokemonPage>)
+    : undefined
+
   const query = useInfiniteQuery<PokemonPage, Error>({
     queryKey: ['pokemonList'],
     initialPageParam: 0,
@@ -37,6 +48,10 @@ export function usePokemonList(): {
     },
     networkMode: 'offlineFirst',
     staleTime: 1000 * 60 * 30,
+    initialData: initialList,
+    onSuccess: data => {
+      storage.set(listKey, JSON.stringify(data))
+    },
   })
 
   const typeQuery = useQuery<Pokemon[], Error>({
@@ -45,6 +60,13 @@ export function usePokemonList(): {
     enabled: !!typeFilter,
     networkMode: 'offlineFirst',
     staleTime: 1000 * 60 * 30,
+    initialData: typeFilter ? (() => {
+      const raw = storage.getString(typeKey(typeFilter))
+      return raw ? (JSON.parse(raw) as Pokemon[]) : undefined
+    })() : undefined,
+    onSuccess: data => {
+      if (typeFilter) storage.set(typeKey(typeFilter), JSON.stringify(data))
+    },
   })
 
   const searchQuery = useQuery<Pokemon[], Error>({
@@ -53,6 +75,13 @@ export function usePokemonList(): {
     enabled: !!debounced,
     networkMode: 'offlineFirst',
     staleTime: 1000 * 60 * 30,
+    initialData: debounced ? (() => {
+      const raw = storage.getString(searchKey(debounced))
+      return raw ? (JSON.parse(raw) as Pokemon[]) : undefined
+    })() : undefined,
+    onSuccess: data => {
+      if (debounced) storage.set(searchKey(debounced), JSON.stringify(data))
+    },
   })
 
   const pokemonData = React.useMemo(() => {
