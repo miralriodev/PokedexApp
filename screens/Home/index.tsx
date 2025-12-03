@@ -1,13 +1,14 @@
 // src/screens/Home/index.tsx
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import PokemonList from '../../src/components/PokemonList'
 
 export const HomeScreen: React.FC = () => {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <PokemonList />
-    </View>
+    </SafeAreaView>
   )
 }
 

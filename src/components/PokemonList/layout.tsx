@@ -60,6 +60,7 @@ export function PokemonListLayout({
           onChangeText={setSearchTerm}
           placeholder="Buscar por nombre"
           style={styles.input}
+          placeholderTextColor="#9ca3af"
         />
       </View>
 
@@ -86,7 +87,7 @@ export function PokemonListLayout({
             accessibilityRole="button"
             accessibilityLabel={`Ver detalles de ${item.name}`}
           >
-            <Text>{item.name}</Text>
+            <Text style={{ textTransform: 'capitalize', fontSize: 16 }}>{item.name}</Text>
           </TouchableOpacity>
         )}
         onEndReachedThreshold={0.5}
